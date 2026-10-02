@@ -1,0 +1,152 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Peculiar Sisters Fellowship — Design System
+ * Palette: Deep Purple, Gold, Orange, Cream, White.
+ * Type: Playfair Display (headings) + Poppins (body).
+ */
+
+@theme inline {
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-orange: var(--orange);
+  --color-purple: var(--purple);
+  --color-cream: var(--cream);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Brand */
+  --gold: oklch(0.78 0.13 82);          /* #D4AF37 */
+  --gold-foreground: oklch(0.22 0.08 300);
+  --orange: oklch(0.7 0.18 45);         /* #F57C00 */
+  --purple: oklch(0.28 0.13 300);       /* #4A148C deep purple */
+  --cream: oklch(0.98 0.02 90);         /* #FFF8E1 */
+
+  /* Semantic */
+  --background: oklch(0.99 0.008 85);
+  --foreground: oklch(0.22 0.05 300);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.05 300);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.05 300);
+  --primary: oklch(0.28 0.13 300);      /* deep purple */
+  --primary-foreground: oklch(0.98 0.02 90);
+  --secondary: oklch(0.78 0.13 82);     /* gold */
+  --secondary-foreground: oklch(0.22 0.08 300);
+  --muted: oklch(0.96 0.02 85);
+  --muted-foreground: oklch(0.45 0.03 300);
+  --accent: oklch(0.7 0.18 45);         /* orange */
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.6 0.22 27);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.9 0.02 85);
+  --input: oklch(0.9 0.02 85);
+  --ring: oklch(0.78 0.13 82);
+
+  /* Gradients & shadows */
+  --gradient-royal: linear-gradient(135deg, oklch(0.28 0.13 300), oklch(0.4 0.15 310));
+  --gradient-gold: linear-gradient(135deg, oklch(0.82 0.14 85), oklch(0.7 0.18 55));
+  --gradient-hero: linear-gradient(135deg, oklch(0.22 0.12 300 / 0.85), oklch(0.35 0.14 310 / 0.6));
+  --shadow-elegant: 0 20px 50px -20px oklch(0.28 0.13 300 / 0.35);
+  --shadow-gold: 0 10px 30px -10px oklch(0.78 0.13 82 / 0.5);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+}
+
+@utility container-app {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  max-width: 80rem;
+}
+
+@utility text-gradient-gold {
+  background: var(--gradient-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-royal {
+  background: var(--gradient-royal);
+}
+
+@utility bg-hero-overlay {
+  background: var(--gradient-hero);
+}
+
+@utility shadow-elegant {
+  box-shadow: var(--shadow-elegant);
+}
+
+@utility shadow-gold {
+  box-shadow: var(--shadow-gold);
+}
+
+@utility divider-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  &::before,
+  &::after {
+    content: "";
+    width: 2.5rem;
+    height: 1px;
+    background: var(--gold);
+  }
+}
