@@ -12,6 +12,10 @@ The site is designed to help visitors learn about the ministry, discover upcomin
 - Built with React, Vite, TypeScript, and Tailwind CSS
 - Uses reusable UI components and a polished, elegant design system
 
+## Live Demo
+
+https://peculiar-sisters-web.vercel.app/
+
 ## Tech Stack
 
 - React 19
