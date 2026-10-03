@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout, PageHero, Section } from "@/components/SiteLayout";
+import { FormShell } from "@/components/FormShell";
 import { Lock } from "lucide-react";
 import { useState } from "react";
 
@@ -26,24 +27,26 @@ function PrayerRequest() {
               <p className="mt-3 opacity-90">Our intercessors will lift your request before the Lord. Expect testimonies!</p>
             </div>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="rounded-3xl bg-card border border-border p-8 md:p-10 shadow-elegant space-y-5">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <input required placeholder="Full name" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
-                <input required type="email" placeholder="Email" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
-              </div>
-              <input placeholder="Phone / WhatsApp (optional)" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
-              <select className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary">
-                <option>Prayer Request</option>
-                <option>One-on-One Prayer</option>
-                <option>Counselling</option>
-              </select>
-              <textarea required rows={6} placeholder="Please share your request…" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
-              <label className="flex items-start gap-3 text-sm text-muted-foreground">
-                <input type="checkbox" className="mt-1 accent-[--gold]" />
-                <span className="flex items-center gap-2"><Lock className="h-3.5 w-3.5" /> Keep this request private (only prayer team sees it)</span>
-              </label>
-              <button className="w-full rounded-full bg-royal text-white font-semibold py-3.5 shadow-gold ring-1 ring-[--gold]/40 hover:brightness-110 transition">Submit Request</button>
-            </form>
+            <FormShell className="shadow-elegant space-y-5">
+              <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-5">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <input required placeholder="Full name" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+                  <input required type="email" placeholder="Email" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+                </div>
+                <input placeholder="Phone / WhatsApp (optional)" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+                <select className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary">
+                  <option>Prayer Request</option>
+                  <option>One-on-One Prayer</option>
+                  <option>Counselling</option>
+                </select>
+                <textarea required rows={6} placeholder="Please share your request…" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+                <label className="flex items-start gap-3 text-sm text-muted-foreground">
+                  <input type="checkbox" className="mt-1 accent-[--gold]" />
+                  <span className="flex items-center gap-2"><Lock className="h-3.5 w-3.5" /> Keep this request private (only prayer team sees it)</span>
+                </label>
+                <button className="w-full rounded-full bg-royal text-white font-semibold py-3.5 shadow-gold ring-1 ring-[--gold]/40 hover:brightness-110 transition">Submit Request</button>
+              </form>
+            </FormShell>
           )}
         </div>
       </Section>

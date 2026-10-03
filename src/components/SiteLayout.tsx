@@ -1,6 +1,7 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
+import { siteConfig } from "@/config/sites";
 import { useState, type ReactNode } from "react";
-import { Menu, X, Facebook, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
+import { Menu, X, Facebook, Instagram, Youtube, Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import psfLogoAsset from "@/assets/PSF_LOGO.jpeg";
 
 const NAV = [
@@ -15,6 +16,13 @@ const NAV = [
   { to: "/blog", label: "Blog" },
   { to: "/contact", label: "Contact" },
 ] as const;
+
+const socialIcons = {
+  facebook: Facebook,
+  instagram: Instagram,
+  youtube: Youtube,
+  whatsapp: MessageCircle,
+};
 
 function Logo() {
   return (
@@ -36,23 +44,37 @@ function Logo() {
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  const isNavActive = (to: string) => {
+    if (to === "/") return location.pathname === "/";
+    return location.pathname === to || location.pathname.startsWith(`${to}/`);
+  };
+
   return (
+
+    //nav when screen is maximized
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
+      
       <div className="container-app flex h-20 items-center justify-between gap-4">
         <Logo />
         <nav className="hidden lg:flex items-center gap-1">
-          {NAV.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="px-3 py-2 text-sm font-medium text-foreground/80 hover:text-primary transition-colors relative"
-              activeProps={{ className: "text-primary" }}
-              activeOptions={{ exact: item.to === "/" }}
-            >
-              {item.label}
-            </Link>
-          ))}
+        {NAV.map((item) => (
+          <Link
+            key={item.to}
+            to={item.to}
+            className={[
+              "px-3 py-2 text-sm font-medium transition-colors",
+              isNavActive(item.to)
+                ? "text-primary underline decoration-[var(--gold)] underline-offset-[10px] decoration-2"
+                : "text-foreground/80 underline decoration-transparent underline-offset-[10px] decoration-2 hover:text-primary hover:decoration-[var(--gold)]",
+            ].join(" ")}
+          >
+            {item.label}
+          </Link>
+        ))}
         </nav>
+
         <div className="hidden lg:block">
           <Link
             to="/prayer-request"
@@ -69,6 +91,8 @@ function Header() {
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
+
+      {/* nav when screen is minimized */}
       {open && (
         <div className="lg:hidden border-t border-border bg-background">
           <div className="container-app py-4 flex flex-col gap-1">
@@ -77,9 +101,12 @@ function Header() {
                 key={item.to}
                 to={item.to}
                 onClick={() => setOpen(false)}
-                className="py-2 text-base font-medium text-foreground/85"
-                activeProps={{ className: "text-primary" }}
-                activeOptions={{ exact: item.to === "/" }}
+                className={[
+                  "py-2 text-base font-medium transition-colors",
+                  isNavActive(item.to)
+                    ? "text-primary underline decoration-[var(--gold)] underline-offset-[8px] decoration-2"
+                    : "text-foreground/85 underline decoration-transparent underline-offset-[8px] decoration-2 hover:text-primary hover:decoration-[var(--gold)]",
+                ].join(" ")}
               >
                 {item.label}
               </Link>
@@ -119,13 +146,27 @@ function Footer() {
           <p className="mt-5 text-sm opacity-80 italic font-display">
             "We Are Peculiar. We Are Virtuous."
           </p>
-          <div className="mt-6 flex gap-3">
-            {[Facebook, Instagram, Youtube].map((Icon, i) => (
-              <a key={i} href="#" className="grid h-9 w-9 place-items-center rounded-full bg-white/10 hover:bg-[--gold]/20 transition">
-                <Icon className="h-4 w-4" />
+
+        <div className="mt-6 flex gap-3">
+          {siteConfig.socialLinks.map((social) => {
+            const iconName = social.name.toLowerCase();
+            const Icon = socialIcons[iconName as keyof typeof socialIcons];
+
+            return (
+              <a
+                key={social.name}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.name}
+                className="grid h-9 w-9 place-items-center rounded-full bg-white/10 hover:bg-[--gold]/20 transition"
+              >
+                {Icon ? <Icon className="h-4 w-4" /> : null}
               </a>
-            ))}
-          </div>
+            );
+          })}
+        </div>
+
         </div>
 
         <div>
@@ -174,6 +215,12 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
+
+      // WhatsApp floating button
+      <a href={siteConfig.contact.whatsapp} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp" className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-white shadow-elegant transition hover:brightness-110 hover:scale-[1.03]">
+        <MessageCircle className="h-4 w-4" />
+        <span className="text-sm font-semibold">WhatsApp</span>
+      </a>
     </div>
   );
 }

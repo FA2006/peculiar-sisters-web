@@ -26,15 +26,15 @@ function Conference() {
   return (
     <SiteLayout>
       <section className="relative min-h-[70vh] flex items-center overflow-hidden">
-        <img src={confImg} alt="Conference worship" width={1600} height={1000} className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-[--purple]/85" />
+        <img src={confImg} alt="Conference worship" width={1600} height={1000} className="absolute inset-0 h-full w-full scale-[1.00] object-cover brightness-55 blur-[1.03px]" />
+        <div className="absolute inset-0 bg-[--purple]/75" />
         <div className="container-app relative py-24 text-primary-foreground text-center">
           <div className="text-xs uppercase tracking-[0.35em] text-[--gold]">PSF Women Conference 2026</div>
           <h1 className="mt-4 font-display text-5xl md:text-7xl font-bold">A Woman of Purpose in the Digital Age</h1>
           <p className="mt-5 opacity-90 max-w-2xl mx-auto">A holy convocation of women rising in worship, purpose, and power in the digital age. Come expecting encounters.</p>
           <div className="mt-8 flex flex-wrap gap-6 justify-center text-sm">
-            <span className="inline-flex items-center gap-2"><Calendar className="h-4 w-4 text-[--gold]" /> 25 July 2026</span>
-            <span className="inline-flex items-center gap-2"><MapPin className="h-4 w-4 text-[--gold]" /> Dresdner Suits, Gwarinpa, Abuja-Nigeria</span>
+            <span className="inline-flex items-center gap-2  rounded-full border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur "><Calendar className="h-4 w-4 text-[--gold]" /> 25 July 2026</span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur "><MapPin className="h-4 w-4 text-[--gold]" /> Dresdner Suits, Gwarinpa, Abuja-Nigeria</span>
           </div>
         </div>
       </section>

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout, PageHero, Section } from "@/components/SiteLayout";
-import { Heart, HandHeart, BookOpen, Sparkles, Users, Award, ShieldCheck, HeartHandshake } from "lucide-react";
+import { Heart, HandHeart, BookOpen, Sparkles, Users, Award, ShieldCheck, HeartHandshake, MessageCircle } from "lucide-react";
 import convenerImg from "@/assets/convener.png";
 
 export const Route = createFileRoute("/about")({
@@ -32,29 +32,77 @@ function About() {
       <PageHero eyebrow="About PSF" title="Our Story, Vision & Mission" subtitle="A movement of virtuous women called to shine God's light in every sphere." />
 
       <Section>
-        <div className="container-app grid gap-14 lg:grid-cols-5">
-          <div className="lg:col-span-3">
-            <div className="text-xs uppercase tracking-[0.35em] text-accent mb-3">Our Story</div>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-primary">From a Small Circle to a Global Sisterhood</h2>
-            <div className="mt-6 space-y-5 text-muted-foreground leading-relaxed">
-              <p>Peculiar Sisters Fellowship began as a small gathering of women hungry for a deeper walk with Jesus. What started as intimate prayer nights has grown into a global fellowship reaching women across denominations, cultures, and continents.</p>
-              <p>We are a spiritual home for the searching, the wounded, the awakening, and the burning — a place where every woman is celebrated as God's peculiar treasure and equipped to walk in her purpose.</p>
-              <p>Rooted in scripture and led by the Holy Spirit, PSF exists to raise women who love God fiercely, know who they are, and change the world from the inside out.</p>
+        {/* Vision & Mission */}
+        <div className="container-app">
+          <div className="grid gap-6 md:grid-cols-2">
+            
+            {/* Vision */}
+            <div className="relative overflow-hidden rounded-3xl bg-royal p-8 text-primary-foreground shadow-elegant ring-1 ring-[--gold]/40">
+              <div className="pointer-events-none absolute -top-20 -right-20 h-52 w-52 rounded-full bg-[--gold]/25 blur-3xl" />
+
+              <div className="relative text-xs uppercase tracking-[0.35em] text-[--gold]">
+                Vision
+              </div>
+
+              <p className="relative mt-3 font-display text-lg leading-relaxed text-justify hyphens-auto">
+                To raise a generation of godly, purpose-driven, spiritually empowered,
+                and transformational women who passionately love God, live by His
+                Word, influence society with integrity, and fulfill their God-ordained
+                destinies while advancing the Kingdom of God across generations and
+                nations.
+              </p>
+            </div>
+
+            {/* Mission */}
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange to-purple p-8 text-primary-foreground shadow-elegant ring-1 ring-[--gold]/40">
+              <div className="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-[--gold]/25 blur-3xl" />
+
+              <div className="relative text-xs uppercase tracking-[0.35em] text-[--gold]">
+                Mission
+              </div>
+
+              <p className="relative mt-3 font-display text-lg leading-relaxed text-justify hyphens-auto">
+                The Peculiar Sisters Fellowship exists to disciple, equip, inspire,
+                and empower women through the uncompromising teaching of God's Word,
+                fervent prayer, worship, mentorship, leadership development, and
+                compassionate service, enabling them to discover their divine
+                purpose, develop their God-given gifts, build Christ-centered
+                families, excel in every sphere of life, and become positive agents
+                of transformation in their communities and the world.
+              </p>
             </div>
           </div>
 
-          <div className="lg:col-span-2 space-y-6">
-            <div className="relative overflow-hidden rounded-3xl bg-royal p-8 text-primary-foreground shadow-elegant ring-1 ring-[--gold]/40">
-              <div className="pointer-events-none absolute -top-20 -right-20 h-52 w-52 rounded-full bg-[--gold]/25 blur-3xl" />
-              <div className="relative text-xs uppercase tracking-[0.35em] text-[--gold]">Vision</div>
-              <p className="relative mt-3 font-display text-lg leading-relaxed text-justify hyphens-auto">To raise a generation of godly, purpose-driven, spiritually empowered, and transformational women who passionately love God, live by His Word, influence society with integrity, and fulfill their God-ordained destinies while advancing the Kingdom of God across generations and nations.</p>
-            </div>
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange to-purple p-8 text-primary-foreground shadow-elegant ring-1 ring-[--gold]/40">
-              <div className="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-[--gold]/25 blur-3xl" />
-              <div className="relative text-xs uppercase tracking-[0.35em] text-[--gold]">Mission</div>
-              <p className="relative mt-3 font-display text-lg leading-relaxed text-justify hyphens-auto">The Peculiar Sisters Fellowship exists to disciple, equip, inspire, and empower women through the uncompromising teaching of God's Word, fervent prayer, worship, mentorship, leadership development, and compassionate service, enabling them to discover their divine purpose, develop their God-given gifts, build Christ-centered families, excel in every sphere of life, and become positive agents of transformation in their communities and the world.</p>
+          {/* Our Story */}
+          <div className="mx-auto mt-16 max-w-4xl text-center">
+            <div className="mb-3 text-xs uppercase tracking-[0.35em] text-accent">
+              Our Story
             </div>
 
+            <h2 className="font-display text-3xl font-bold text-primary md:text-4xl">
+              From a Small Circle to a Global Sisterhood
+            </h2>
+
+            <div className="mt-6 space-y-5 text-muted-foreground leading-relaxed">
+              <p>
+                Peculiar Sisters Fellowship began as a small gathering of women
+                hungry for a deeper walk with Jesus. What started as intimate prayer
+                nights has grown into a global fellowship reaching women across
+                denominations, cultures, and continents.
+              </p>
+
+              <p>
+                We are a spiritual home for the searching, the wounded, the
+                awakening, and the burning — a place where every woman is celebrated
+                as God's peculiar treasure and equipped to walk in her purpose.
+              </p>
+
+              <p>
+                Rooted in scripture and led by the Holy Spirit, PSF exists to raise
+                women who love God fiercely, know who they are, and change the world
+                from the inside out.
+              </p>
+            </div>
           </div>
         </div>
       </Section>

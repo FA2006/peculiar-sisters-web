@@ -8,6 +8,7 @@ import bibleStudyImg from "@/assets/bible-study-new.jpg";
 import prayerImg from "@/assets/prayer.jpg";
 import conferenceImg from "@/assets/conference.jpg";
 import psfLogoAsset from "@/assets/PSF_LOGO.jpeg";
+import { siteConfig } from "@/config/sites";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -101,6 +102,7 @@ function HomePage() {
 
   return (
     <SiteLayout>
+      
       {/* HERO */}
       <section className="relative min-h-[92vh] flex items-center overflow-hidden">
         <img
@@ -132,13 +134,22 @@ function HomePage() {
               Welcome to Peculiar Sisters Fellowship — a community of virtuous women growing together in faith, purpose, and impact.
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
-              <Link to="/about" className="inline-flex items-center gap-2 rounded-full bg-[--gold] px-6 py-3.5 text-sm font-semibold text-white shadow-gold hover:brightness-110 transition">
-                Join Our Fellowship <ArrowRight className="h-4 w-4" />
+              <Link
+                to="/about"
+                className="group relative inline-flex items-center gap-2 rounded-full border border-[--gold]/60 bg-[--gold] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_10px_0_rgba(100,75,16,0.9),0_18px_32px_rgba(0,0,0,0.28)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_0_rgba(100,75,16,0.95),0_26px_36px_rgba(0,0,0,0.32)] active:translate-y-0.5 active:shadow-[0_6px_0_rgba(100,75,16,0.95),0_12px_18px_rgba(0,0,0,0.22)]"
+              >
+                Join Our Fellowship <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
               </Link>
-              <Link to="/events" className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur px-6 py-3.5 text-sm font-semibold ring-1 ring-white/40 hover:bg-white/15 transition">
+              <Link
+                to="/events"
+                className="group relative inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_10px_0_rgba(18,30,60,0.8),0_18px_32px_rgba(0,0,0,0.24)] backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-[0_14px_0_rgba(18,30,60,0.85),0_26px_36px_rgba(0,0,0,0.3)] active:translate-y-0.5 active:shadow-[0_6px_0_rgba(18,30,60,0.85),0_12px_18px_rgba(0,0,0,0.2)]"
+              >
                 Upcoming Events
               </Link>
-              <Link to="/prayer-request" className="inline-flex items-center gap-2 rounded-full border border-[--gold]/60 px-6 py-3.5 text-sm font-semibold text-white hover:bg-[--gold]/10 transition">
+              <Link
+                to="/prayer-request"
+                className="group relative inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_10px_0_rgba(18,30,60,0.8),0_18px_32px_rgba(0,0,0,0.24)] backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-[0_14px_0_rgba(18,30,60,0.85),0_26px_36px_rgba(0,0,0,0.3)] active:translate-y-0.5 active:shadow-[0_6px_0_rgba(18,30,60,0.85),0_12px_18px_rgba(0,0,0,0.2)]"
+              >
                 Prayer Request
               </Link>
             </div>
@@ -359,6 +370,11 @@ function HomePage() {
           </div>
         </div>
       </Section>
+
+      
+      <a href={siteConfig.contact.whatsapp} target="_blank" rel="noreferrer" className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-5 py-3 shadow-elegant hover:brightness-110 transition" >
+        <MessageCircle className="h-4 w-4" /> <span className="text-sm font-semibold">WhatsApp</span>
+      </a>
     </SiteLayout>
   );
 }

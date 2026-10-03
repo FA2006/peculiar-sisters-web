@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout, PageHero, Section } from "@/components/SiteLayout";
+import { FormShell } from "@/components/FormShell";
 import { Mail, Phone, MapPin, Facebook, Instagram, Youtube, MessageCircle } from "lucide-react";
 import { useState } from "react";
+import { siteConfig } from "@/config/sites";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -12,6 +14,14 @@ export const Route = createFileRoute("/contact")({
   }),
   component: Contact,
 });
+
+const socialIcons = {
+  facebook: Facebook,
+  instagram: Instagram,
+  youtube: Youtube,
+  whatsapp: MessageCircle,
+};
+
 
 function Contact() {
   const [sent, setSent] = useState(false);
@@ -39,9 +49,23 @@ function Contact() {
             <div className="rounded-2xl border border-border bg-card p-5">
               <div className="text-xs uppercase tracking-widest text-muted-foreground">Follow Us</div>
               <div className="mt-3 flex gap-2">
-                {[Facebook, Instagram, Youtube, MessageCircle].map((Icon, i) => (
-                  <a key={i} href="#" className="grid h-10 w-10 place-items-center rounded-full bg-royal text-white hover:brightness-110 transition"><Icon className="h-4 w-4" /></a>
-                ))}
+                {siteConfig.socialLinks.map((social) => {
+                  const iconName = social.name.toLowerCase();
+                  const Icon = socialIcons[iconName as keyof typeof socialIcons];
+
+                  return (
+                    <a
+                      key={social.name}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.name}
+                      className="grid h-10 w-10 place-items-center rounded-full bg-royal text-white hover:brightness-110 transition"
+                    >
+                      {Icon ? <Icon className="h-4 w-4" /> : null}
+                    </a>
+                  );
+                })}
               </div>
             </div>
 
@@ -62,24 +86,21 @@ function Contact() {
                 <p className="mt-3 opacity-90">We'll get back to you shortly. Grace and peace!</p>
               </div>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="rounded-3xl bg-card border border-border p-8 md:p-10 shadow-sm space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <input required placeholder="Full name" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
-                  <input required type="email" placeholder="Email" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
-                </div>
-                <input placeholder="Subject" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
-                <textarea required rows={6} placeholder="Your message…" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
-                <button className="rounded-full bg-royal text-white font-semibold px-8 py-3.5 shadow-gold ring-1 ring-[--gold]/40 hover:brightness-110 transition">Send Message</button>
-              </form>
+              <FormShell className="shadow-sm">
+                <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <input required placeholder="Full name" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+                    <input required type="email" placeholder="Email" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+                  </div>
+                  <input placeholder="Subject" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+                  <textarea required rows={6} placeholder="Your message…" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+                  <button className="rounded-full bg-royal text-white font-semibold px-8 py-3.5 shadow-gold ring-1 ring-[--gold]/40 hover:brightness-110 transition">Send Message</button>
+                </form>
+              </FormShell>
             )}
           </div>
         </div>
       </Section>
-
-      <a href="https://wa.me/2348133715979" target="_blank" rel="noreferrer"
-        className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-5 py-3 shadow-elegant hover:brightness-110 transition">
-        <MessageCircle className="h-4 w-4" /> <span className="text-sm font-semibold">WhatsApp</span>
-      </a>
     </SiteLayout>
   );
 }
