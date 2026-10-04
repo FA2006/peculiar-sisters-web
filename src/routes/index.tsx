@@ -330,7 +330,7 @@ export default function HomePage() {
           <div className="mt-10 flex flex-wrap gap-3 justify-center">
             {upcomingEvent ? (
               <Link to="/events/$eventId" params={{ eventId: upcomingEvent.id }} className="inline-flex items-center gap-2 rounded-full border border-[--gold]/60 bg-[--gold] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_10px_0_rgba(100,75,16,0.9),0_18px_32px_rgba(0,0,0,0.28)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_0_rgba(100,75,16,0.95),0_26px_36px_rgba(0,0,0,0.32)] active:translate-y-0.5 active:shadow-[0_6px_0_rgba(100,75,16,0.95),0_12px_18px_rgba(0,0,0,0.22)]">
-                Register Now <ArrowRight className="h-4 w-4" />
+                Reserve Your Sear! <ArrowRight className="h-4 w-4" />
               </Link>
             ) : (
               <Link to="/events" className="inline-flex items-center gap-2 rounded-full bg-[--gold] px-6 py-3.5 text-sm font-semibold text-white shadow-gold hover:brightness-110 transition">
