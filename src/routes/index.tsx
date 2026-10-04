@@ -1,25 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Calendar, Heart, BookOpen, Users, Sparkles, Quote, MessageCircle } from "lucide-react";
+import { ArrowRight, Calendar, Heart, BookOpen, Users, Sparkles, Quote, MessageCircle, MapPin } from "lucide-react";
 import { SiteLayout, Section } from "@/components/SiteLayout";
 import heroImg from "@/assets/hero-worship.jpg";
 import fellowshipImg from "@/assets/fellowship.jpg";
-import bibleStudyImg from "@/assets/bible-study-new.jpg";
-import prayerImg from "@/assets/prayer.jpg";
 import conferenceImg from "@/assets/conference.jpg";
 import psfLogoAsset from "@/assets/PSF_LOGO.jpeg";
 import events from "@/events.json";
 import EventCard from "@/components/EventCard";
+import { DATED_EVENTS, FIXED_EVENTS, formatWhen, resolveImage } from "@/lib/events";
+import type { PSFEvent } from "@/lib/events";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
 });
-
-const FEATURED_EVENTS = [
-  { title: "Midnight Prayer Watch", tag: "Prayer Night", date: "Last Friday of the month · 11:30 PM WAT", day: "Fri", month: "Monthly", img: prayerImg, desc: "A night of intense intercession for women, families, and nations.", cta: "Join Now" },
-  { title: "PSF Bible Study", tag: "Bible Study", date: "Every Friday at 6:00pm on PSF WhatsApp platform", day: "Fri", month: "Weekly", img: bibleStudyImg, desc: "Digging deep into scripture and biblical womanhood — growing together in God's Word.", cta: "Join Now", whatsapp: "https://chat.whatsapp.com/K367slmStAt8DIIkGcalf4?s=cl&p=a&mlu=0&ilr=0&amv=0" },
-  { title: "PSF Women Conference 2026", tag: "Conference", date: "25 July 2026 · Dresdner Suits, Gwarinpa, Abuja-Nigeria", day: "25", month: "Jul", img: conferenceImg, desc: "Theme: A Woman of Purpose in the Digital Age. A day of worship, teaching, and impartation.", cta: "Learn More" },
-];
 
 const WEEKLY = [
   { title: "PSF Fasting & Prayer", when: "Mondays · 6:00 AM – 2:00 PM (Virtual)" },
@@ -101,15 +95,28 @@ function MiniCountdown({ target }: { target: Date }) {
 }
 
 export default function HomePage() {
-  const conferenceDate = new Date();
+  const now = new Date();
   const upcoming = events.upcoming?.[0] ?? null;
   const upcomingLink = upcoming ? `/events#${upcoming.id}` : "/events";
+  const upcomingEvent = DATED_EVENTS
+    .filter((event) => event.date && new Date(event.date) > now)
+    .sort((a, b) => new Date(a.date!).getTime() - new Date(b.date!).getTime())[0];
+  const countdownImage = resolveImage(upcomingEvent?.image) ?? conferenceImg;
+  const countdownTarget = upcomingEvent?.date ? new Date(upcomingEvent.date) : null;
+  const pastEvent = DATED_EVENTS
+    .filter((event) => event.date && new Date(event.date) <= now)
+    .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime())[0];
+  const featuredEvents: { event: PSFEvent; section: string }[] = [];
+
+  if (FIXED_EVENTS[0]) featuredEvents.push({ event: FIXED_EVENTS[0], section: "Fixed" });
+  if (upcomingEvent) featuredEvents.push({ event: upcomingEvent, section: "Upcoming" });
+  if (pastEvent) featuredEvents.push({ event: pastEvent, section: "Past" });
 
   return (
     <SiteLayout>
       
       {/* HERO */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[92vh] flex items-center overflow-hidden rounded-b-[3%]">
         <img
           src={heroImg}
           alt="Women worshipping in fellowship"
@@ -217,7 +224,7 @@ export default function HomePage() {
         <div className="container-app">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <div>
-              <div className="text-xs uppercase tracking-[0.35em] text-accent mb-2">Featured Upcoming Events</div>
+              <div className="text-xs uppercase tracking-[0.35em] text-accent mb-2">Fixed, Upcoming & Past Events</div>
               <h2 className="font-display text-3xl md:text-5xl font-bold text-primary">Events & Programmes</h2>
             </div>
             <Link to="/events" className="text-sm font-semibold tracking-widest uppercase text-primary hover:text-accent inline-flex items-center gap-2">
@@ -228,37 +235,38 @@ export default function HomePage() {
           <div className="grid gap-6 lg:grid-cols-3">
             {/* Left: 3 event cards */}
             <div className="lg:col-span-2 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {FEATURED_EVENTS.map((e) => (
-                <article key={e.title} className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:shadow-elegant transition flex flex-col">
-                  <div className="relative">
-                    <img src={e.img} alt={e.title} loading="lazy" className="h-44 w-full object-cover group-hover:scale-105 transition duration-700" />
-                    <span className="absolute top-3 left-3 rounded-md bg-[--purple] text-[--gold] text-[10px] uppercase tracking-widest font-semibold px-2.5 py-1 shadow">{e.tag}</span>
-                    <div className="absolute top-3 right-3 rounded-md bg-white/95 backdrop-blur px-2.5 py-1.5 text-center leading-none shadow">
-                      <div className="font-display text-lg text-[--purple]">{e.day}</div>
-                      <div className="text-[9px] uppercase tracking-widest text-accent font-semibold">{e.month}</div>
+              {featuredEvents.map(({ event, section }) => {
+                const image = resolveImage(event.image);
+                const date = event.date ? new Date(event.date) : undefined;
+
+                return (
+                  <article key={event.id} className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:shadow-elegant transition flex flex-col">
+                    <div className="relative">
+                      {image && (
+                        <img src={image} alt={event.title} loading="lazy" className="h-44 w-full object-cover group-hover:scale-105 transition duration-700" />
+                      )}
+                      <span className="absolute top-3 left-3 rounded-md bg-[--purple] text-[--gold] text-[10px] uppercase tracking-widest font-semibold px-2.5 py-1 shadow">{section}</span>
+                      <div className="absolute top-3 right-3 rounded-md bg-white/95 backdrop-blur px-2.5 py-1.5 text-center leading-none shadow">
+                        <div className="font-display text-lg text-[--purple]">
+                          {date ? date.toLocaleDateString("en-NG", { day: "numeric", timeZone: "Africa/Lagos" }) : "Fixed"}
+                        </div>
+                        <div className="text-[9px] uppercase tracking-widest text-accent font-semibold">
+                          {date ? date.toLocaleDateString("en-NG", { month: "short", timeZone: "Africa/Lagos" }) : "Weekly"}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-5 flex flex-col flex-1">
-                    <div className="text-xs text-muted-foreground flex items-center gap-1.5"><Calendar className="h-3 w-3 text-accent" />{e.date}</div>
-                    <h3 className="mt-2 font-display text-xl text-primary leading-snug">{e.title}</h3>
-                    <p className="mt-2 text-xs text-muted-foreground leading-relaxed flex-1">{e.desc}</p>
-                    {e.whatsapp ? (
-                      <a
-                        href={e.whatsapp}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#25D366] text-white text-xs font-bold uppercase tracking-widest px-4 py-2 hover:brightness-110 transition"
-                      >
-                        <MessageCircle className="h-3.5 w-3.5" /> Join on WhatsApp
-                      </a>
-                    ) : (
+                    <div className="p-5 flex flex-col flex-1">
+                      <div className="text-xs text-muted-foreground flex items-center gap-1.5"><Calendar className="h-3 w-3 text-accent" />{formatWhen(event)}</div>
+                      <h3 className="mt-2 font-display text-xl text-primary leading-snug">{event.title}</h3>
+                      <div className="mt-2 text-xs text-muted-foreground flex items-center gap-1.5"><MapPin className="h-3 w-3 text-accent" />{event.location}</div>
+                      <p className="mt-2 text-xs text-muted-foreground leading-relaxed flex-1">{event.description}</p>
                       <Link to="/events" className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-accent hover:text-primary transition">
-                        {e.cta} <ArrowRight className="h-3.5 w-3.5" />
+                        Learn More <ArrowRight className="h-3.5 w-3.5" />
                       </Link>
-                    )}
-                  </div>
-                </article>
-              ))}
+                    </div>
+                  </article>
+                );
+              })}
             </div>
 
             {/* Right: highlight + weekly programmes */}
@@ -301,21 +309,34 @@ export default function HomePage() {
       </Section>
 
       {/* CONFERENCE COUNTDOWN */}
-      <section className="relative py-24 overflow-hidden">
-        <img src={prayerImg} alt="" width={1200} height={1400} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-[--purple]/85" />
+      <section className="relative py-24 overflow-hidden rounded-tr-[5%] rounded-bl-[5%]">
+        <img src={countdownImage} alt="" width={1200} height={1400} loading="lazy" className="absolute inset-0 h-full w-full scale-105 object-cover blur-[2px]" />
+        <div className="absolute inset-0 bg-[--purple]/90" />
         <div className="container-app relative text-primary-foreground text-center">
-          <div className="text-xs uppercase tracking-[0.35em] text-[--gold]">PSF Annual Conference 2026</div>
-          <h2 className="mt-4 font-display text-4xl md:text-6xl font-bold">A Woman of Purpose in the Digital Age</h2>
-          <p className="mt-4 opacity-85 max-w-xl mx-auto">A day of worship, teaching, prophetic ministry, and impartation. 25 July 2026 · Dresdner Suits, Gwarinpa, Abuja-Nigeria.</p>
-          <div className="mt-10"><Countdown target={conferenceDate} /></div>
+          <div className="text-xs uppercase tracking-[0.35em] text-[--gold]">
+            {upcomingEvent ? "Upcoming Event" : "Coming Up"}
+          </div>
+          <h2 className="mt-4 font-display text-4xl md:text-6xl font-bold">
+            {upcomingEvent?.title ?? "Our Next Gathering"}
+          </h2>
+          <p className="mt-4 opacity-85 max-w-xl mx-auto">
+            {upcomingEvent
+              ? [upcomingEvent.description, upcomingEvent.location].filter(Boolean).join(" · ")
+              : "Stay tuned for details about our next gathering."}
+          </p>
+          {countdownTarget && (
+            <div className="mt-10"><Countdown target={countdownTarget} /></div>
+          )}
           <div className="mt-10 flex flex-wrap gap-3 justify-center">
-            <Link to="/events/$eventId" params={{ eventId: "psf-women-conference-2026" }} className="inline-flex items-center gap-2 rounded-full bg-[--gold] px-6 py-3.5 text-sm font-semibold text-white shadow-gold hover:brightness-110 transition">
-              Register Now <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link to="/events/$eventId" params={{ eventId: "psf-women-conference-2026" }} className="inline-flex items-center gap-2 rounded-full border border-[--gold]/60 px-6 py-3.5 text-sm font-semibold text-white hover:bg-[--gold]/10 transition">
-              View Programme
-            </Link>
+            {upcomingEvent ? (
+              <Link to="/events/$eventId" params={{ eventId: upcomingEvent.id }} className="inline-flex items-center gap-2 rounded-full border border-[--gold]/60 bg-[--gold] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_10px_0_rgba(100,75,16,0.9),0_18px_32px_rgba(0,0,0,0.28)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_0_rgba(100,75,16,0.95),0_26px_36px_rgba(0,0,0,0.32)] active:translate-y-0.5 active:shadow-[0_6px_0_rgba(100,75,16,0.95),0_12px_18px_rgba(0,0,0,0.22)]">
+                Register Now <ArrowRight className="h-4 w-4" />
+              </Link>
+            ) : (
+              <Link to="/events" className="inline-flex items-center gap-2 rounded-full bg-[--gold] px-6 py-3.5 text-sm font-semibold text-white shadow-gold hover:brightness-110 transition">
+                View Events <ArrowRight className="h-4 w-4" />
+              </Link>
+            )}
           </div>
         </div>
       </section>

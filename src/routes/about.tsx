@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout, PageHero, Section } from "@/components/SiteLayout";
+import { RegistrationForm } from "@/components/RegistrationForm";
 import { Heart, HandHeart, BookOpen, Sparkles, Users, Award, ShieldCheck, HeartHandshake, MessageCircle } from "lucide-react";
 import convenerImg from "@/assets/convener.png";
 
@@ -127,25 +128,35 @@ function About() {
 
       {/* Convener */}
       <Section className="pt-0">
-        <div className="container-app grid gap-12 lg:grid-cols-2 items-center">
-          <div className="relative">
-            <img src={convenerImg} alt="Evang. Francisca Francis-Nwaoha" width={1000} height={1200} loading="lazy" className="rounded-3xl shadow-elegant object-cover w-full aspect-[4/5]" />
-            <div className="absolute -bottom-6 -left-6 hidden md:block rounded-2xl bg-[--gold] text-[--purple] px-5 py-3 shadow-gold font-display">
-              Convener & Visionary
+        <div className="container-app">
+          <div className="grid gap-12 lg:grid-cols-2 items-center">
+            <div className="flex flex-col items-center">
+              <img src={convenerImg} alt="Evang. Francisca Francis-Nwaoha" width={1000} height={1200} loading="lazy" className="w-3/5 rounded-3xl shadow-elegant object-cover aspect-[4/5]" />
+              <div className="mt-4 inline-flex rounded-2xl bg-[--gold] text-[--purple] px-5 py-3 shadow-gold font-display">
+                Convener & Visionary
+              </div>
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-[0.35em] text-accent mb-3">Meet the Convener</div>
+              <h2 className="font-display text-3xl md:text-5xl font-bold text-primary">Evang. Francisca Francis-Nwaoha</h2>
+              <p className="mt-5 text-muted-foreground leading-relaxed">
+                A passionate evangelist, teacher, and mentor, Evang. Francisca has given her life to raising women who love God and live boldly for Him. Called into ministry at a young age, she carries a burden for the healing, empowerment, and awakening of women across nations.
+              </p>
+              <p className="mt-4 text-muted-foreground leading-relaxed">
+                Through prayer, scripture, and prophetic mentorship, she has walked with thousands of women into freedom and purpose. Her heart's cry: <em className="text-primary">that no daughter of Zion be left behind.</em>
+              </p>
+              <blockquote className="mt-8 border-l-2 border-[--gold] pl-5 italic text-primary font-display text-lg">
+                "You were not made ordinary. God set you apart — peculiar, precious, virtuous. Arise, sister. The world is waiting for the woman you were designed to be."
+              </blockquote>
             </div>
           </div>
-          <div>
-            <div className="text-xs uppercase tracking-[0.35em] text-accent mb-3">Meet the Convener</div>
-            <h2 className="font-display text-3xl md:text-5xl font-bold text-primary">Evang. Francisca Francis-Nwaoha</h2>
-            <p className="mt-5 text-muted-foreground leading-relaxed">
-              A passionate evangelist, teacher, and mentor, Evang. Francisca has given her life to raising women who love God and live boldly for Him. Called into ministry at a young age, she carries a burden for the healing, empowerment, and awakening of women across nations.
-            </p>
-            <p className="mt-4 text-muted-foreground leading-relaxed">
-              Through prayer, scripture, and prophetic mentorship, she has walked with thousands of women into freedom and purpose. Her heart's cry: <em className="text-primary">that no daughter of Zion be left behind.</em>
-            </p>
-            <blockquote className="mt-8 border-l-2 border-[--gold] pl-5 italic text-primary font-display text-lg">
-              "You were not made ordinary. God set you apart — peculiar, precious, virtuous. Arise, sister. The world is waiting for the woman you were designed to be."
-            </blockquote>
+          <div className="mx-auto mt-14 max-w-xl">
+            <RegistrationForm
+              eyebrow="Get in Touch"
+              title="Connect with the Convener"
+              submitLabel="Send Request"
+              successMessage="Thank you for reaching out. We'll be in touch soon."
+            />
           </div>
         </div>
       </Section>

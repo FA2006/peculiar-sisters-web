@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
 import { SiteLayout, Section } from "@/components/SiteLayout";
+import { RegistrationForm } from "@/components/RegistrationForm";
 import { Calendar, MapPin, Mic, ArrowLeft } from "lucide-react";
 import { getEventById, formatWhen, resolveImage } from "@/lib/events";
 
@@ -23,13 +23,9 @@ export const Route = createFileRoute("/events/$eventId")({
   component: EventDetail,
 });
 
-const inputClass =
-  "w-full rounded-xl bg-white/10 px-4 py-3 text-sm ring-1 ring-white/20 placeholder:text-white/60 focus:outline-none focus:ring-[--gold]";
-
 function EventDetail() {
   const { eventId } = Route.useParams();
   const event = getEventById(eventId);
-  const [submitted, setSubmitted] = useState(false);
 
   if (!event) {
     return (
@@ -142,50 +138,18 @@ function EventDetail() {
 
             {/* Form: "Join" for fixed events, "Reserve your seat" for upcoming, none for past */}
             {showForm && (
-              <aside className="rounded-3xl bg-royal p-8 text-primary-foreground shadow-elegant h-fit lg:sticky lg:top-24">
-                <div className="text-xs uppercase tracking-[0.35em] text-[--gold]">
-                  {formEyebrow}
-                </div>
-                <h3 className="mt-2 font-display text-2xl">{formTitle}</h3>
-
-                {submitted ? (
-                  <div className="mt-5 space-y-4">
-                    <p className="text-sm opacity-90">
-                      {isFixed
-                        ? "Thank you for joining! We'll be in touch with the details."
-                        : `Registration received. See you at ${event.location}!`}
-                    </p>
-                    {isFixed && event.joinUrl && (
-                      <a
-                        href={event.joinUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full rounded-full bg-[--gold] text-white text-center font-semibold py-3 shadow-gold hover:brightness-110 transition"
-                      >
-                        Open {event.mode}
-                      </a>
-                    )}
-                  </div>
-                ) : (
-                  <form
-                    onSubmit={(ev) => {
-                      ev.preventDefault();
-                      // TODO: send to your backend / Formspree / Google Form.
-                      // Include event.id and event.title in the payload so you know which event it's for.
-                      setSubmitted(true);
-                    }}
-                    className="mt-5 space-y-3"
-                  >
-                    <input required aria-label="Full name" placeholder="Full name" className={inputClass} />
-                    <input required type="email" aria-label="Email" placeholder="Email" className={inputClass} />
-                    <input type="tel" aria-label="Phone or WhatsApp" placeholder="Phone / WhatsApp" className={inputClass} />
-                    <input aria-label="Country or city" placeholder="Country / City" className={inputClass} />
-                    <button className="w-full rounded-full bg-[--gold] text-white font-semibold py-3 shadow-gold hover:brightness-110 transition">
-                      {submitLabel}
-                    </button>
-                  </form>
-                )}
-              </aside>
+              <RegistrationForm
+                eyebrow={formEyebrow}
+                title={formTitle}
+                submitLabel={submitLabel}
+                successMessage={
+                  isFixed
+                    ? "Thank you for joining! We'll be in touch with the details."
+                    : `Registration received. See you at ${event.location}!`
+                }
+                joinUrl={isFixed ? event.joinUrl : undefined}
+                joinLabel={isFixed ? `Open ${event.mode}` : undefined}
+              />
             )}
           </div>
         </div>
