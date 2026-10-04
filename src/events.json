@@ -1,0 +1,78 @@
+{
+  "fixed": [
+    {
+      "id": "prayer-and-intercession",
+      "title": "Prayer and Intercession",
+      "location": "Virtual",
+      "day": "Monday",
+      "description": "PSF Fasting & Prayer",
+      "about": "A day set apart for fasting, prayer and intercession as a fellowship.",
+      "time": "6:00 AM – 2:00 PM",
+      "mode": "PSF WhatsApp platform",
+      "joinUrl": "",
+      "image": "Prayer and Intercession.jpeg"
+    },
+    {
+      "id": "psf-bible-study",
+      "title": "PSF Bible Study",
+      "location": "Virtual",
+      "day": "Every Friday",
+      "description": "Bible study",
+      "about": "Weekly Bible study for the sisters, held on the PSF WhatsApp platform.",
+      "time": "6:00 PM",
+      "mode": "PSF WhatsApp platform",
+      "joinUrl": "",
+      "image": "bible-study-new.jpg"
+    },
+    {
+      "id": "midnight-prayer-watch",
+      "title": "Midnight Prayer Watch",
+      "location": "Virtual",
+      "day": "Every Friday",
+      "description": "Midnight Prayer Watch",
+      "about": "A weekly midnight prayer watch on the PSF WhatsApp platform.",
+      "time": "11:30 PM",
+      "mode": "PSF WhatsApp platform",
+      "joinUrl": "",
+      "image": "Midnight Prayer Watch.jpeg"
+    }
+  ],
+  "upcoming": [
+    {
+      "id": "carol-night",
+      "title": "Carol Night",
+      "date": "2026-12-20T18:00:00+01:00",
+      "location": "PSF Auditorium",
+      "description": "Carol Singing Night",
+      "about": "An evening of carols and worship as we celebrate the season together.",
+      "time": "6:00 PM – 9:00 PM",
+      "mode": "Onsite",
+      "registration": false,
+      "image": "PSF_MUMF.jpeg",
+        "speakers": [
+        { "name": "Evang. Francisca Francis-Nwaoha", "role": "Convener · PSF" },
+        { "name": "Pst. Kate Edmond-Ekele", "role": "Guest Minister" },
+        { "name": "Pst. Princess King", "role": "Guest Minister" },
+        { "name": "Sis IZ Osoria & the G-Twins", "role": "Worship Leader" }
+        ]
+    },
+    {
+      "id": "psf-women-conference-2026",
+      "title": "PSF Women Conference 2026",
+      "date": "2026-07-25T09:00:00+01:00",
+      "location": "Dresdner Suits, Gwarinpa, Abuja-Nigeria",
+      "description": "A Woman of Purpose in the Digital Age",
+      "theme": "A Woman of Purpose in the Digital Age",
+      "about": "This year's conference equips women to walk in purpose, influence, and godly impact in a rapidly changing digital world. A holy convocation of women rising in worship, purpose, and power. Come expecting encounters.",
+      "mode": "Onsite",
+      "registration": true,
+      "image": "PSF_CONF2.jpeg",
+      "speakers": [
+        { "name": "Evang. Francisca Francis-Nwaoha", "role": "Convener · PSF" },
+        { "name": "Pst. Kate Edmond-Ekele", "role": "Guest Minister" },
+        { "name": "Pst. Princess King", "role": "Guest Minister" },
+        { "name": "Sis IZ Osoria & the G-Twins", "role": "Worship Leader" }
+      ]
+    }
+  ]
+}

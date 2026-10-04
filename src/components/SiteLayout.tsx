@@ -9,7 +9,6 @@ const NAV = [
   { to: "/about", label: "About" },
   { to: "/ministries", label: "Ministries" },
   { to: "/events", label: "Events" },
-  { to: "/conference", label: "Conference" },
   { to: "/sermons", label: "Sermons" },
   { to: "/testimonies", label: "Testimonies" },
   { to: "/gallery", label: "Gallery" },
@@ -216,7 +215,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <main className="flex-1">{children}</main>
       <Footer />
 
-      // WhatsApp floating button
+      {/* WhatsApp floating button */}
       <a href={siteConfig.contact.whatsapp} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp" className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-white shadow-elegant transition hover:brightness-110 hover:scale-[1.03]">
         <MessageCircle className="h-4 w-4" />
         <span className="text-sm font-semibold">WhatsApp</span>

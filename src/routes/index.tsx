@@ -8,7 +8,8 @@ import bibleStudyImg from "@/assets/bible-study-new.jpg";
 import prayerImg from "@/assets/prayer.jpg";
 import conferenceImg from "@/assets/conference.jpg";
 import psfLogoAsset from "@/assets/PSF_LOGO.jpeg";
-import { siteConfig } from "@/config/sites";
+import events from "@/events.json";
+import EventCard from "@/components/EventCard";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -30,6 +31,8 @@ const TESTIMONIES = [
   { name: "Ngozi A.", role: "Abuja, Nigeria", text: "The sisterhood, the prayers, the teachings — I came broken and left carrying purpose. God truly moves in this fellowship." },
   { name: "Chioma E.", role: "London, UK", text: "Through PSF's mentorship I discovered gifts I never knew I had. I now lead a small group in my own community." },
 ];
+
+
 
 function Countdown({ target }: { target: Date }) {
   const [mounted, setMounted] = useState(false);
@@ -97,8 +100,10 @@ function MiniCountdown({ target }: { target: Date }) {
   );
 }
 
-function HomePage() {
-  const conferenceDate = new Date("2026-07-25T09:00:00");
+export default function HomePage() {
+  const conferenceDate = new Date();
+  const upcoming = events.upcoming?.[0] ?? null;
+  const upcomingLink = upcoming ? `/events#${upcoming.id}` : "/events";
 
   return (
     <SiteLayout>
@@ -258,16 +263,20 @@ function HomePage() {
 
             {/* Right: highlight + weekly programmes */}
             <aside className="flex flex-col gap-6">
-              <div className="rounded-2xl bg-royal text-primary-foreground p-6 shadow-elegant ring-1 ring-[--gold]/30">
-                <div className="text-[10px] uppercase tracking-[0.3em] text-[--gold] font-semibold">Upcoming Highlight</div>
-                <h3 className="mt-2 font-display text-2xl leading-tight">PSF Women Conference 2026</h3>
-                <div className="mt-1 text-xs text-[--gold]">25 July 2026 · Dresdner Suits, Gwarinpa, Abuja-Nigeria</div>
-                <div className="mt-5">
-                  <MiniCountdown target={conferenceDate} />
-                </div>
-                <Link to="/conference" className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[--gold] px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-white shadow-gold hover:brightness-110 transition">
-                  Register <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
+              <div>
+                {upcoming ? (
+                  <EventCard
+                    title={upcoming.title}
+                    date={upcoming.date}
+                    location={upcoming.location}
+                    link={upcomingLink}
+                  />
+                ) : (
+                  <div className="rounded-2xl border border-dashed border-border bg-card p-5 text-center shadow-sm">
+                    <div className="text-[10px] uppercase tracking-[0.3em] text-accent">Upcoming Event</div>
+                    <p className="mt-3 font-display text-2xl text-primary">No upcoming events</p>
+                  </div>
+                )}
               </div>
 
               <div className="rounded-2xl bg-accent text-accent-foreground p-6 shadow-elegant">
@@ -301,10 +310,10 @@ function HomePage() {
           <p className="mt-4 opacity-85 max-w-xl mx-auto">A day of worship, teaching, prophetic ministry, and impartation. 25 July 2026 · Dresdner Suits, Gwarinpa, Abuja-Nigeria.</p>
           <div className="mt-10"><Countdown target={conferenceDate} /></div>
           <div className="mt-10 flex flex-wrap gap-3 justify-center">
-            <Link to="/conference" className="inline-flex items-center gap-2 rounded-full bg-[--gold] px-6 py-3.5 text-sm font-semibold text-white shadow-gold hover:brightness-110 transition">
+            <Link to="/events/$eventId" params={{ eventId: "psf-women-conference-2026" }} className="inline-flex items-center gap-2 rounded-full bg-[--gold] px-6 py-3.5 text-sm font-semibold text-white shadow-gold hover:brightness-110 transition">
               Register Now <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link to="/conference" className="inline-flex items-center gap-2 rounded-full border border-[--gold]/60 px-6 py-3.5 text-sm font-semibold text-white hover:bg-[--gold]/10 transition">
+            <Link to="/events/$eventId" params={{ eventId: "psf-women-conference-2026" }} className="inline-flex items-center gap-2 rounded-full border border-[--gold]/60 px-6 py-3.5 text-sm font-semibold text-white hover:bg-[--gold]/10 transition">
               View Programme
             </Link>
           </div>
@@ -371,10 +380,6 @@ function HomePage() {
         </div>
       </Section>
 
-      
-      <a href={siteConfig.contact.whatsapp} target="_blank" rel="noreferrer" className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-5 py-3 shadow-elegant hover:brightness-110 transition" >
-        <MessageCircle className="h-4 w-4" /> <span className="text-sm font-semibold">WhatsApp</span>
-      </a>
     </SiteLayout>
   );
 }
