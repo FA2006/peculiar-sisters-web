@@ -154,7 +154,7 @@ function About() {
             <RegistrationForm
               eyebrow="Get in Touch"
               title="Connect with the Convener"
-              submitLabel="Send Request"
+              submitLabel="Register"
               successMessage="Thank you for reaching out. We'll be in touch soon."
             />
           </div>

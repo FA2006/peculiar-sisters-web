@@ -20,6 +20,7 @@ import { Route as PrayerRequestRouteImport } from './routes/prayer-request'
 import { Route as SermonsRouteImport } from './routes/sermons'
 import { Route as TestimoniesRouteImport } from './routes/testimonies'
 import { Route as VolunteerRouteImport } from './routes/volunteer'
+import { Route as ApiSendEmailRouteImport } from './routes/api/send-email'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsEventIdRouteImport } from './routes/events.$eventId'
 
@@ -78,6 +79,11 @@ const VolunteerRoute = VolunteerRouteImport.update({
   path: '/volunteer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSendEmailRoute = ApiSendEmailRouteImport.update({
+  id: '/api/send-email',
+  path: '/api/send-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EventsIndexRoute = EventsIndexRouteImport.update({
   id: '/events/',
   path: '/events/',
@@ -101,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/sermons': typeof SermonsRoute
   '/testimonies': typeof TestimoniesRoute
   '/volunteer': typeof VolunteerRoute
+  '/api/send-email': typeof ApiSendEmailRoute
   '/events/$eventId': typeof EventsEventIdRoute
   '/events/': typeof EventsIndexRoute
 }
@@ -116,6 +123,7 @@ export interface FileRoutesByTo {
   '/sermons': typeof SermonsRoute
   '/testimonies': typeof TestimoniesRoute
   '/volunteer': typeof VolunteerRoute
+  '/api/send-email': typeof ApiSendEmailRoute
   '/events/$eventId': typeof EventsEventIdRoute
   '/events': typeof EventsIndexRoute
 }
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/sermons': typeof SermonsRoute
   '/testimonies': typeof TestimoniesRoute
   '/volunteer': typeof VolunteerRoute
+  '/api/send-email': typeof ApiSendEmailRoute
   '/events/$eventId': typeof EventsEventIdRoute
   '/events/': typeof EventsIndexRoute
 }
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
     | '/sermons'
     | '/testimonies'
     | '/volunteer'
+    | '/api/send-email'
     | '/events/$eventId'
     | '/events/'
   fileRoutesByTo: FileRoutesByTo
@@ -164,6 +174,7 @@ export interface FileRouteTypes {
     | '/sermons'
     | '/testimonies'
     | '/volunteer'
+    | '/api/send-email'
     | '/events/$eventId'
     | '/events'
   id:
@@ -179,6 +190,7 @@ export interface FileRouteTypes {
     | '/sermons'
     | '/testimonies'
     | '/volunteer'
+    | '/api/send-email'
     | '/events/$eventId'
     | '/events/'
   fileRoutesById: FileRoutesById
@@ -195,6 +207,7 @@ export interface RootRouteChildren {
   SermonsRoute: typeof SermonsRoute
   TestimoniesRoute: typeof TestimoniesRoute
   VolunteerRoute: typeof VolunteerRoute
+  ApiSendEmailRoute: typeof ApiSendEmailRoute
   EventsEventIdRoute: typeof EventsEventIdRoute
   EventsIndexRoute: typeof EventsIndexRoute
 }
@@ -278,6 +291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VolunteerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/send-email': {
+      id: '/api/send-email'
+      path: '/api/send-email'
+      fullPath: '/api/send-email'
+      preLoaderRoute: typeof ApiSendEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events/': {
       id: '/events/'
       path: '/events'
@@ -307,6 +327,7 @@ const rootRouteChildren: RootRouteChildren = {
   SermonsRoute: SermonsRoute,
   TestimoniesRoute: TestimoniesRoute,
   VolunteerRoute: VolunteerRoute,
+  ApiSendEmailRoute: ApiSendEmailRoute,
   EventsEventIdRoute: EventsEventIdRoute,
   EventsIndexRoute: EventsIndexRoute,
 }

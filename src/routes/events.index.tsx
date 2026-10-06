@@ -45,7 +45,7 @@ function Events() {
       <Section>
         <div className="container-app">
           <h2 className="font-display text-3xl md:text-4xl text-primary mb-10">
-            Weekly / Fixed Events
+            Weekly
           </h2>
           <div className="grid gap-6 md:grid-cols-2">
             {FIXED_EVENTS.map((e) => {
@@ -93,7 +93,7 @@ function Events() {
       <Section>
         <div className="container-app">
           <h2 className="font-display text-3xl md:text-4xl text-primary mb-10">
-            Upcoming Events
+            Upcoming Programs
           </h2>
           <div className="grid gap-6 md:grid-cols-2">
             {UPCOMING.length > 0 ? (
@@ -150,7 +150,7 @@ function Events() {
       <Section className="pt-0">
         <div className="container-app">
           <h2 className="font-display text-3xl md:text-4xl text-primary mb-10">
-            Past Events
+            Past Programs
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {PAST.length > 0 ? (

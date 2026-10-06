@@ -32,6 +32,7 @@ https://peculiar-sisters-web.vercel.app/
 src/
   assets/              # Images and media assets
   components/          # Shared UI components and layout
+  emails/              # React Email templates
   hooks/               # Custom React hooks
   lib/                 # Utility functions and app helpers
   routes/              # File-based app routes
@@ -80,8 +81,26 @@ npm run dev
 3. Open the local URL shown in the terminal, usually:
 
 ```text
-http://localhost:3000
+http://localhost:8080
 ```
+
+Vite may choose another port if that port is already in use; use the URL printed by the dev server.
+
+## Form Email Delivery
+
+Forms submit to the TanStack Start server route `POST /api/send-email`. The server sends an admin notification and a confirmation email through Resend. Supported submissions are event registration, contact, prayer request, volunteer application, testimony, and newsletter. Each type has its own subject configured in `src/lib/form-submissions.ts`.
+
+For local development, create an ignored `.env.local` file in the project root:
+
+```dotenv
+RESEND_API_KEY=re_your_resend_api_key
+ADMIN_EMAIL=admin@example.com
+RESEND_FROM_EMAIL="Peculiar Sisters Fellowship <notifications@your-verified-domain.com>"
+```
+
+Set `RESEND_FROM_EMAIL` to an address on a domain verified in Resend. Resend's `onboarding@resend.dev` testing sender has recipient restrictions and is not suitable for sending to arbitrary visitors. Keep these variables server-only: do not prefix them with `VITE_` or commit `.env.local`. Configure the same variables as secrets/environment variables in the production hosting environment.
+
+The newsletter form currently emails the admin and sends a confirmation; it does not add addresses to a mailing-list or marketing platform.
 
 ## Main Pages
 
