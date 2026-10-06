@@ -45,6 +45,7 @@ function Header() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
+  // Keep section links active while visiting nested routes, such as event details.
   const isNavActive = (to: string) => {
     if (to === "/") return location.pathname === "/";
     return location.pathname === to || location.pathname.startsWith(`${to}/`);

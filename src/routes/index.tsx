@@ -360,7 +360,7 @@ export default function HomePage() {
                                 day: "numeric",
                                 timeZone: "Africa/Lagos",
                               })
-                            : "Fixed"}
+                            : "Weekly"}
                         </div>
                         <div className="text-[9px] uppercase tracking-widest text-accent font-semibold">
                           {date
@@ -368,7 +368,7 @@ export default function HomePage() {
                                 month: "short",
                                 timeZone: "Africa/Lagos",
                               })
-                            : "Weekly"}
+                            : "Fixed"}
                         </div>
                       </div>
                     </div>

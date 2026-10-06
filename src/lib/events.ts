@@ -25,7 +25,7 @@ export const DATED_EVENTS = raw.upcoming as unknown as PSFEvent[];
 export const getEventById = (id: string): PSFEvent | undefined =>
   [...FIXED_EVENTS, ...DATED_EVENTS].find((e) => e.id === id);
 
-// Resolves "carol-night.jpg" to a bundled URL from src/assets
+// Resolves "current.jpg" to a bundled URL from src/assets
 const images = import.meta.glob("/src/assets/*.{jpg,jpeg,png,webp}", {
   eager: true,
   import: "default",
