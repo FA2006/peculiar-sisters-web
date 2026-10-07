@@ -1,16 +1,17 @@
 # Peculiar Sisters Fellowship (PSF) Website
 
-This project is the official website for Peculiar Sisters Fellowship (PSF), a Christ-centered women’s fellowship committed to prayer, spiritual growth, mentorship, and purposeful living.
+This is the official website for Peculiar Sisters Fellowship (PSF), a Christ-centered women’s fellowship committed to prayer, spiritual growth, mentorship, and purposeful living.
 
-The site is designed to help visitors learn about the ministry, discover upcoming events, submit prayer requests, learn about conferences and testimonies, and connect with the community.
+The site helps visitors learn about the ministry, discover upcoming events, read blog content, submit prayer requests, and connect with the PSF community.
 
 ## Overview
 
-- Responsive church/fellowship website
-- Modern landing page with event highlights and ministry messaging
-- File-based routing for a multi-page experience
-- Built with React, Vite, TypeScript, and Tailwind CSS
-- Uses reusable UI components and a polished, elegant design system
+- Responsive fellowship and ministry website
+- Modern landing page with ministry messaging and event highlights
+- File-based routing with nested child routes for details pages
+- Sanity-powered content for blog posts and events
+- Built with React, Vite, TypeScript, Tailwind CSS, and TanStack Router
+- Reusable shadcn-style UI components and layout system
 
 ## Live Demo
 
@@ -22,28 +23,78 @@ https://peculiar-sisters-web.vercel.app/
 - TypeScript
 - Vite
 - TanStack Router / TanStack Start
+- TanStack Query
 - Tailwind CSS
-- shadcn-style UI components
+- Sanity CMS
+- Resend email delivery
 - Lucide React icons
+- shadcn-style component primitives
 
 ## Project Structure
 
 ```text
-src/
-  assets/              # Images and media assets
-  components/          # Shared UI components and layout
-  emails/              # React Email templates
-  hooks/               # Custom React hooks
-  lib/                 # Utility functions and app helpers
-  routes/              # File-based app routes
-  styles.css           # Global styling and theme setup
-  router.tsx           # Router setup
-  server.ts            # Server related setup
-  start.ts             # App bootstrap
-public/                # Static assets
-package.json           # Scripts and dependencies
-vite.config.ts        # Vite configuration
+.
+├── public/                     # Static files, manifest, favicons
+├── src/
+│   ├── assets/                # Images and media assets
+│   ├── components/            # Shared UI and layout components
+│   ├── config/               # Site config and shared values
+│   ├── emails/               # Email templates for form notifications
+│   ├── hooks/                # Reusable React hooks
+│   ├── lib/                  # App utilities, Sanity client, email logic
+│   ├── routes/               # File-based route tree
+│   │   ├── __root.tsx        # App shell with <Outlet />
+│   │   ├── blog.tsx          # Blog parent route (outlet)
+│   │   ├── blog.index.tsx   # /blog list page
+│   │   ├── blog.$slug.tsx   # /blog/:slug detail page
+│   │   ├── events.index.tsx # /events list page
+│   │   ├── events.$eventId.tsx # /events/:eventId detail page
+│   │   └── ...               # Other site pages
+│   ├── router.tsx            # TanStack Router setup
+│   ├── server.ts             # Server setup
+│   ├── start.ts              # App bootstrap
+│   ├── styles.css            # Global styling and theme
+│   └── routeTree.gen.ts      # Generated route tree
+├── psf-peculiar-sisters-web/ # Sanity Studio project
+│   ├── schemaTypes/          # Sanity schemas for blog, event, speaker
+│   ├── sanity.config.ts      # Sanity config
+│   └── ...
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+├── bunfig.toml
+├── components.json
+├── eslint.config.js
+├── prettierignore
+├── prettierc
+├── README.md
+└── AGENTS.md
 ```
+
+## Routing Pattern
+
+The app uses TanStack Router with nested route structure.
+
+Examples:
+
+- `/events` → event listing page
+- `/events/:eventId` → event detail page
+- `/blog` → blog index page
+- `/blog/:slug` → blog post detail page
+
+The parent route files act as layout containers using `<Outlet />`, so child detail pages mount inside the app shell while preserving shared layout and navigation.
+
+## Content Management
+
+The site uses Sanity as its content backend.
+
+Key content models include:
+
+- `blog`
+- `event`
+- `speaker`
+
+Sanity queries live in route loaders and fetch data for list/detail pages. Media is handled via the Sanity image URL helper.
 
 ## Available Scripts
 
@@ -56,13 +107,13 @@ npm run lint
 npm run format
 ```
 
-### Scripts
+### Script Summary
 
-- `npm run dev` — starts the local development server
-- `npm run build` — creates a production build
-- `npm run preview` — previews the production build locally
-- `npm run lint` — runs ESLint checks
-- `npm run format` — formats the codebase with Prettier
+- `npm run dev` — start the local development server
+- `npm run build` — create a production build
+- `npm run preview` — preview the production build locally
+- `npm run lint` — run ESLint checks
+- `npm run format` — format the codebase with Prettier
 
 ## Local Development
 
@@ -84,13 +135,13 @@ npm run dev
 http://localhost:8080
 ```
 
-Vite may choose another port if that port is already in use; use the URL printed by the dev server.
+If the default port is busy, Vite will choose another available port.
 
-## Form Email Delivery
+## Environment and Email Setup
 
-Forms submit to the TanStack Start server route `POST /api/send-email`. The server sends an admin notification and a confirmation email through Resend. Supported submissions are event registration, contact, prayer request, volunteer application, testimony, and newsletter. Each type has its own subject configured in `src/lib/form-submissions.ts`.
+Forms submit to the TanStack Start server route `POST /api/send-email`. The server sends an admin notification and a confirmation email through Resend. Supported submissions include event registration, contact, prayer request, volunteer application, testimony, and newsletter.
 
-For local development, create an ignored `.env.local` file in the project root:
+Create an ignored `.env.local` file in the project root for local development:
 
 ```dotenv
 RESEND_API_KEY=re_your_resend_api_key
@@ -98,9 +149,12 @@ ADMIN_EMAIL=admin@example.com
 RESEND_FROM_EMAIL="Peculiar Sisters Fellowship <notifications@your-verified-domain.com>"
 ```
 
-Set `RESEND_FROM_EMAIL` to an address on a domain verified in Resend. Resend's `onboarding@resend.dev` testing sender has recipient restrictions and is not suitable for sending to arbitrary visitors. Keep these variables server-only: do not prefix them with `VITE_` or commit `.env.local`. Configure the same variables as secrets/environment variables in the production hosting environment.
+Important notes:
 
-The newsletter form currently emails the admin and sends a confirmation; it does not add addresses to a mailing-list or marketing platform.
+- Keep these variables server-only and do not prefix them with `VITE_`
+- Do not commit `.env.local`
+- Use the same values in your hosting provider environment settings
+- Set `RESEND_FROM_EMAIL` to a verified sender domain in Resend
 
 ## Main Pages
 
@@ -110,23 +164,23 @@ This site includes pages for:
 - About
 - Ministries
 - Events
-- Conference
 - Sermons
 - Testimonies
 - Gallery
 - Blog
 - Contact
 - Prayer Request
-- Volunteer and Giving opportunities
+- Volunteer
+- Giving
 
 ## Notes
 
-The app uses a route-driven architecture under `src/routes`, so adding new pages is done by creating new route files in that directory.
+The app uses a route-driven architecture under `src/routes`, so new pages and nested detail views are added by creating proper route files in that directory.
 
 ## License
 
-This project is for the Peculiar Sisters Fellowship community and is intended for internal/public ministry use.
+This project is for the Peculiar Sisters Fellowship community and is intended for ministry, outreach, and public communication use.
 
 ## Contact
 
-For questions or collaboration around the site, reach out through the contact information provided within the website or project maintainers.
+For questions or collaboration around the site, reach out through the contact information provided on the website or contact the project maintainers directly.

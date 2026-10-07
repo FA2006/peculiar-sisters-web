@@ -16,18 +16,20 @@ import heroImg from "@/assets/hero-worship.jpg";
 import fellowshipImg from "@/assets/fellowship.jpg";
 import conferenceImg from "@/assets/conference.jpg";
 import psfLogoAsset from "@/assets/PSF_LOGO.jpeg";
-import events from "@/events.json";
 import EventCard from "@/components/EventCard";
 import {
-  DATED_EVENTS,
-  FIXED_EVENTS,
   formatWhen,
-  resolveImage,
+  getAllEvents,
+  resolveEventImage,
 } from "@/lib/events";
 import { useEmailSubmission } from "@/hooks/useEmailSubmission";
 import type { PSFEvent } from "@/lib/events";
 
 export const Route = createFileRoute("/")({
+  loader: async () => {
+    const allEvents = await getAllEvents();
+    return { allEvents };
+  },
   component: HomePage,
 });
 
@@ -145,27 +147,32 @@ function MiniCountdown({ target }: { target: Date }) {
 
 export default function HomePage() {
   const newsletter = useEmailSubmission("newsletter");
+  const { allEvents } = Route.useLoaderData();
   const now = new Date();
-  const upcoming = events.upcoming?.[0] ?? null;
+  const upcoming = allEvents
+    .filter((event) => event.date && new Date(event.date) > now)
+    .sort(
+      (a, b) => new Date(a.date!).getTime() - new Date(b.date!).getTime(),
+    )[0] ?? null;
   const upcomingLink = upcoming ? `/events#${upcoming.id}` : "/events";
-  const upcomingEvent = DATED_EVENTS.filter(
-    (event) => event.date && new Date(event.date) > now,
-  ).sort(
-    (a, b) => new Date(a.date!).getTime() - new Date(b.date!).getTime(),
-  )[0];
-  const countdownImage = resolveImage(upcomingEvent?.image) ?? conferenceImg;
+  const upcomingEvent = allEvents
+    .filter((event) => event.date && new Date(event.date) > now)
+    .sort(
+      (a, b) => new Date(a.date!).getTime() - new Date(b.date!).getTime(),
+    )[0];
+  const countdownImage = resolveEventImage(upcomingEvent?.image) ?? conferenceImg;
   const countdownTarget = upcomingEvent?.date
     ? new Date(upcomingEvent.date)
     : null;
-  const pastEvent = DATED_EVENTS.filter(
-    (event) => event.date && new Date(event.date) <= now,
-  ).sort(
-    (a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime(),
-  )[0];
+  const pastEvent = allEvents
+    .filter((event) => event.date && new Date(event.date) <= now)
+    .sort(
+      (a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime(),
+    )[0];
+  const fixedEvent = allEvents.find((event) => !event.date) ?? null;
   const featuredEvents: { event: PSFEvent; section: string }[] = [];
 
-  if (FIXED_EVENTS[0])
-    featuredEvents.push({ event: FIXED_EVENTS[0], section: "Fixed" });
+  if (fixedEvent) featuredEvents.push({ event: fixedEvent, section: "Fixed" });
   if (upcomingEvent)
     featuredEvents.push({ event: upcomingEvent, section: "Upcoming" });
   if (pastEvent) featuredEvents.push({ event: pastEvent, section: "Past" });
@@ -331,9 +338,9 @@ export default function HomePage() {
 
           <div className="grid gap-6 lg:grid-cols-3">
             {/* Left: 3 event cards */}
-            <div className="lg:col-span-2 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="lg:col-span-2 grid gap-6 sm:grid-cols-3 xl:grid-cols-3">
               {featuredEvents.map(({ event, section }) => {
-                const image = resolveImage(event.image);
+                const image = resolveEventImage(event.image);
                 const date = event.date ? new Date(event.date) : undefined;
 
                 return (
@@ -388,7 +395,8 @@ export default function HomePage() {
                         {event.description}
                       </p>
                       <Link
-                        to="/events"
+                        to="/events/$eventId"
+                        params={{ eventId: event.id }}
                         className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-accent hover:text-primary transition"
                       >
                         Learn More <ArrowRight className="h-3.5 w-3.5" />
@@ -405,7 +413,7 @@ export default function HomePage() {
                 {upcoming ? (
                   <EventCard
                     title={upcoming.title}
-                    date={upcoming.date}
+                    date={upcoming.date ?? "Date to be announced"}
                     location={upcoming.location}
                     link={upcomingLink}
                   />

@@ -21,6 +21,8 @@ import { Route as SermonsRouteImport } from './routes/sermons'
 import { Route as TestimoniesRouteImport } from './routes/testimonies'
 import { Route as VolunteerRouteImport } from './routes/volunteer'
 import { Route as ApiSendEmailRouteImport } from './routes/api/send-email'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsEventIdRouteImport } from './routes/events.$eventId'
 
@@ -84,6 +86,16 @@ const ApiSendEmailRoute = ApiSendEmailRouteImport.update({
   path: '/api/send-email',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BlogRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
+} as any)
 const EventsIndexRoute = EventsIndexRouteImport.update({
   id: '/events/',
   path: '/events/',
@@ -98,7 +110,7 @@ const EventsEventIdRoute = EventsEventIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/give': typeof GiveRoute
@@ -108,13 +120,14 @@ export interface FileRoutesByFullPath {
   '/testimonies': typeof TestimoniesRoute
   '/volunteer': typeof VolunteerRoute
   '/api/send-email': typeof ApiSendEmailRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/events/$eventId': typeof EventsEventIdRoute
+  '/blog/': typeof BlogIndexRoute
   '/events/': typeof EventsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/give': typeof GiveRoute
@@ -124,14 +137,16 @@ export interface FileRoutesByTo {
   '/testimonies': typeof TestimoniesRoute
   '/volunteer': typeof VolunteerRoute
   '/api/send-email': typeof ApiSendEmailRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/events/$eventId': typeof EventsEventIdRoute
+  '/blog': typeof BlogIndexRoute
   '/events': typeof EventsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/give': typeof GiveRoute
@@ -141,7 +156,9 @@ export interface FileRoutesById {
   '/testimonies': typeof TestimoniesRoute
   '/volunteer': typeof VolunteerRoute
   '/api/send-email': typeof ApiSendEmailRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/events/$eventId': typeof EventsEventIdRoute
+  '/blog/': typeof BlogIndexRoute
   '/events/': typeof EventsIndexRoute
 }
 export interface FileRouteTypes {
@@ -159,13 +176,14 @@ export interface FileRouteTypes {
     | '/testimonies'
     | '/volunteer'
     | '/api/send-email'
+    | '/blog/$slug'
     | '/events/$eventId'
+    | '/blog/'
     | '/events/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/blog'
     | '/contact'
     | '/gallery'
     | '/give'
@@ -175,7 +193,9 @@ export interface FileRouteTypes {
     | '/testimonies'
     | '/volunteer'
     | '/api/send-email'
+    | '/blog/$slug'
     | '/events/$eventId'
+    | '/blog'
     | '/events'
   id:
     | '__root__'
@@ -191,14 +211,16 @@ export interface FileRouteTypes {
     | '/testimonies'
     | '/volunteer'
     | '/api/send-email'
+    | '/blog/$slug'
     | '/events/$eventId'
+    | '/blog/'
     | '/events/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  BlogRoute: typeof BlogRoute
+  BlogRoute: typeof BlogRouteWithChildren
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
   GiveRoute: typeof GiveRoute
@@ -298,6 +320,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiSendEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof BlogRoute
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
+    }
     '/events/': {
       id: '/events/'
       path: '/events'
@@ -315,10 +351,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  BlogRoute: BlogRoute,
+  BlogRoute: BlogRouteWithChildren,
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
   GiveRoute: GiveRoute,

@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 
 type EventCardProps = {
   title: string;
-  date: string;
+  date?: string;
   location: string;
   link: string;
 };
@@ -16,7 +16,7 @@ export default function EventCard({ title, date, location, link }: EventCardProp
     >
       <div className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37]">Upcoming Event</div>
       <h3 className="mt-3 font-display text-2xl leading-tight text-white">{title}</h3>
-      <p className="mt-3 text-sm text-white/80">{date}</p>
+      <p className="mt-3 text-sm text-white/80">{date ?? "Date to be announced"}</p>
       <p className="mt-2 text-sm text-white/75">{location}</p>
       <Link
         to={link}

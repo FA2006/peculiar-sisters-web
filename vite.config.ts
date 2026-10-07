@@ -12,4 +12,21 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    build: {
+      rollupOptions: {
+        onwarn(warning, defaultHandler) {
+          const isSuppressed =
+            warning.code === "MODULE_LEVEL_DIRECTIVE" ||
+            warning.message.includes("vite-tsconfig-paths");
+
+          if (isSuppressed) {
+            return;
+          }
+
+          defaultHandler(warning);
+        },
+      },
+    },
+  },
 });
