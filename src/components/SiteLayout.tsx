@@ -52,10 +52,9 @@ function Header() {
   };
 
   return (
-
-    //nav when screen is maximized
+    // Top-level navigation shell used across every page.
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
-      
+      {/* Desktop navigation links and CTA */}
       <div className="container-app flex h-20 items-center justify-between gap-4">
         <Logo />
         <nav className="hidden lg:flex items-center gap-1">
@@ -92,7 +91,7 @@ function Header() {
         </button>
       </div>
 
-      {/* nav when screen is minimized */}
+      {/* Mobile menu shown on smaller screens */}
       {open && (
         <div className="lg:hidden border-t border-border bg-background">
           <div className="container-app py-4 flex flex-col gap-1">
@@ -127,7 +126,9 @@ function Header() {
 
 function Footer() {
   return (
+    // Shared footer with brand, quick links, and contact details.
     <footer className="mt-24 bg-royal text-primary-foreground">
+      {/* Footer content columns */}
       <div className="container-app py-16 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-3">
@@ -211,12 +212,13 @@ function Footer() {
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   return (
+    // Shared page shell: header, content area, footer, and sticky WhatsApp CTA.
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
 
-      {/* WhatsApp floating button */}
+      {/* Floating WhatsApp contact button for quick outreach */}
       <a href={siteConfig.contact.whatsapp} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp" className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-white shadow-elegant transition hover:brightness-110 hover:scale-[1.03]">
         <MessageCircle className="h-4 w-4" />
         <span className="text-sm font-semibold">WhatsApp</span>
@@ -227,6 +229,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
 export function PageHero({ eyebrow, title, subtitle }: { eyebrow?: string; title: string; subtitle?: string }) {
   return (
+    // Reusable page hero used across ministry, event, and resource pages.
     <section className="relative overflow-hidden bg-royal text-primary-foreground">
       <div className="absolute inset-0 opacity-20 [background-image:radial-gradient(circle_at_20%_20%,var(--gold)_0,transparent_40%),radial-gradient(circle_at_80%_80%,var(--orange)_0,transparent_40%)]" />
       <div className="container-app relative py-20 md:py-28 text-center">
@@ -246,5 +249,6 @@ export function PageHero({ eyebrow, title, subtitle }: { eyebrow?: string; title
 }
 
 export function Section({ children, className = "" }: { children: ReactNode; className?: string }) {
+  // Generic content section wrapper that keeps spacing consistent across pages.
   return <section className={`py-16 md:py-24 ${className}`}>{children}</section>;
 }

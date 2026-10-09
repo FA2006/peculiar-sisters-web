@@ -25,6 +25,7 @@ import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsEventIdRouteImport } from './routes/events.$eventId'
+import { Route as ApiPaymentsInitializeRouteImport } from './routes/api/payments/initialize'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -106,6 +107,11 @@ const EventsEventIdRoute = EventsEventIdRouteImport.update({
   path: '/events/$eventId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPaymentsInitializeRoute = ApiPaymentsInitializeRouteImport.update({
+  id: '/api/payments/initialize',
+  path: '/api/payments/initialize',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -124,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/events/$eventId': typeof EventsEventIdRoute
   '/blog/': typeof BlogIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/api/payments/initialize': typeof ApiPaymentsInitializeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -141,6 +148,7 @@ export interface FileRoutesByTo {
   '/events/$eventId': typeof EventsEventIdRoute
   '/blog': typeof BlogIndexRoute
   '/events': typeof EventsIndexRoute
+  '/api/payments/initialize': typeof ApiPaymentsInitializeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/events/$eventId': typeof EventsEventIdRoute
   '/blog/': typeof BlogIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/api/payments/initialize': typeof ApiPaymentsInitializeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -180,6 +189,7 @@ export interface FileRouteTypes {
     | '/events/$eventId'
     | '/blog/'
     | '/events/'
+    | '/api/payments/initialize'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -197,6 +207,7 @@ export interface FileRouteTypes {
     | '/events/$eventId'
     | '/blog'
     | '/events'
+    | '/api/payments/initialize'
   id:
     | '__root__'
     | '/'
@@ -215,6 +226,7 @@ export interface FileRouteTypes {
     | '/events/$eventId'
     | '/blog/'
     | '/events/'
+    | '/api/payments/initialize'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -232,6 +244,7 @@ export interface RootRouteChildren {
   ApiSendEmailRoute: typeof ApiSendEmailRoute
   EventsEventIdRoute: typeof EventsEventIdRoute
   EventsIndexRoute: typeof EventsIndexRoute
+  ApiPaymentsInitializeRoute: typeof ApiPaymentsInitializeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -348,6 +361,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsEventIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/payments/initialize': {
+      id: '/api/payments/initialize'
+      path: '/api/payments/initialize'
+      fullPath: '/api/payments/initialize'
+      preLoaderRoute: typeof ApiPaymentsInitializeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -378,6 +398,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiSendEmailRoute: ApiSendEmailRoute,
   EventsEventIdRoute: EventsEventIdRoute,
   EventsIndexRoute: EventsIndexRoute,
+  ApiPaymentsInitializeRoute: ApiPaymentsInitializeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
