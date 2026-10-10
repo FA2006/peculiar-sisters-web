@@ -11,8 +11,6 @@ import {
   ChevronDown,
   Copy,
   Check,
-  Wallet,
-  Globe,
 } from "lucide-react";
 
 type PaymentMethod = "paystack" | "flutterwave" | "stripe" | "bank";
@@ -72,20 +70,20 @@ function Give() {
       icon: CreditCard,
       configured: true,
     },
-    {
-      id: "flutterwave" as const,
-      name: "Flutterwave",
-      description: "Online donations through Flutterwave.",
-      icon: Wallet,
-      configured: false,
-    },
-    {
-      id: "stripe" as const,
-      name: "Stripe",
-      description: "Online donations through Stripe.",
-      icon: Globe,
-      configured: false,
-    },
+    // {
+    //   id: "flutterwave" as const,
+    //   name: "Flutterwave",
+    //   description: "Online donations through Flutterwave.",
+    //   icon: Wallet,
+    //   configured: false,
+    // },
+    // {
+    //   id: "stripe" as const,
+    //   name: "Stripe",
+    //   description: "Online donations through Stripe.",
+    //   icon: Globe,
+    //   configured: false,
+    // },
     {
       id: "bank" as const,
       name: "Bank Transfer",
@@ -369,7 +367,7 @@ function Give() {
                             </div>
                           )}
 
-                          {id === "flutterwave" && (
+                          {/* {id === "flutterwave" && (
                             <div>
                               <h3 className="font-display text-xl">
                                 Flutterwave Donations
@@ -380,9 +378,9 @@ function Give() {
                                 for now.
                               </p>
                             </div>
-                          )}
+                          )} */}
 
-                          {id === "stripe" && (
+                          {/* {id === "stripe" && (
                             <div>
                               <h3 className="font-display text-xl">
                                 Stripe Donations
@@ -393,7 +391,7 @@ function Give() {
                                 now.
                               </p>
                             </div>
-                          )}
+                          )} */}
 
                           {id === "bank" && (
                             <div>
